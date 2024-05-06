@@ -61,17 +61,20 @@ INSTALL_CMD=$(
 )
 
 function installPackages {
-    scopedPrerequisites=$1[@]
-    pacFlags=$([[ $FORCE == true ]] && echo "-y")
+    declare -a scopedPrerequisites=("${!1}")
 
-    sudo ${PACMAN} ${INSTALL_CMD} ${!scopedPrerequisites} ${pacFlags}
+    if [[ $FORCE == true ]]; then
+        pacFlags="-y"
+    fi
+
+    sudo ${PACMAN} ${INSTALL_CMD} ${scopedPrerequisites[@]} ${pacFlags}
 
     if [[ -z $2 ]]; then
         exit
     fi
 
-    scopedPackages=$2[@]
-    sudo ${PACMAN} ${INSTALL_CMD} ${!scopedPackages} ${pacFlags}
+    declare -a scopedPackages=("${!2}")
+    sudo ${PACMAN} ${INSTALL_CMD} ${scopedPackages[@]} ${pacFlags}
 }
 
-installPackages ${PREREQUISITES}
+installPackages PREREQUISITES[@]
