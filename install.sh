@@ -1,7 +1,11 @@
+#!/bin/bash
 HELPMSG='this is here to help'
 
-PREREQUISITES=("curl" "git")
+PREREQUISITES=("curl" "git" "dialog")
 FORCE=false
+
+chmod a+x ./functions.sh
+source ./functions.sh
 
 while getopts 'fh' flag; do
     case "${flag}" in
@@ -60,21 +64,35 @@ INSTALL_CMD=$(
     esac
 )
 
-function installPackages {
-    declare -a scopedPrerequisites=("${!1}")
-
-    if [[ $FORCE == true ]]; then
-        pacFlags="-y"
-    fi
-
-    sudo ${PACMAN} ${INSTALL_CMD} ${scopedPrerequisites[@]} ${pacFlags}
-
-    if [[ -z $2 ]]; then
-        exit
-    fi
-
-    declare -a scopedPackages=("${!2}")
-    sudo ${PACMAN} ${INSTALL_CMD} ${scopedPackages[@]} ${pacFlags}
-}
-
 installPackages PREREQUISITES[@]
+
+mapfile -t AVAILABLE_MODULES <<< "$(ls ./Modules/*.sh -1)"
+
+moduleOptions=""
+n=1
+for moduleOption in ${AVAILABLE_MODULES[@]}
+do
+        moduleOptions="$moduleOptions $moduleOption $moduleOption off"
+        n=$[n+1]
+done
+
+choices=$(/usr/bin/dialog --stdout --keep-tite --no-cancel --title "Select modules to install" --ok-button "Install selected" --notags --checklist "Choose modules" 0 0 0 \
+    $moduleOptions)
+
+if [ $? -eq 0 ]
+then
+    set +e
+    for choice in $choices
+    do
+        chmod a+x $choice
+
+        echo "Installing module \"$choice\"..."
+        `sudo $choice`
+    done
+
+    echo "Installed selected modules."
+else
+    echo "No modules selected."
+fi
+
+exit 0
