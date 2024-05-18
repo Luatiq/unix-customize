@@ -5,5 +5,4 @@ set -e
 PREREQUISITES=("cheese")
 PACKAGES=()
 
-# @TODO permission error
 installPackages PREREQUISITES[@] PACKAGES[@]

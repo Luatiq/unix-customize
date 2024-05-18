@@ -87,7 +87,7 @@ then
         chmod a+x $choice
 
         echo "Installing module \"$choice\"..."
-        `sudo $choice`
+        source $choice
     done
 
     echo "Installed selected modules."
