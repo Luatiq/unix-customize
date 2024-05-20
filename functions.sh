@@ -56,3 +56,15 @@ function addRepository {
 
     sudo ${ADD_REPO_CMD} $1 ${pacFlags}
 }
+
+# Only works for gnome
+# Usage: setShortcut "name" "command" "keycombo" shortcutId
+function setShortcut {
+    name="$1"
+    commandToRun="$2"
+    binding="$3"
+    path="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$4"
+    dconf write "$path/name" "'""$name""'"
+    dconf write "$path/command" "'""$commandToRun""'"
+    dconf write "$path/binding" "'""$binding""'"
+}
