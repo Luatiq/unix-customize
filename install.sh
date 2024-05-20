@@ -1,4 +1,5 @@
 #!/bin/bash
+# @TODO fix this help message to actually help
 HELPMSG='this is here to help'
 
 PREREQUISITES=("curl" "git" "dialog")
