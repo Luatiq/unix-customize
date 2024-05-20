@@ -17,3 +17,42 @@ function installPackages {
     sudo ${PACMAN} ${INSTALL_CMD} ${scopedPackages[@]} ${pacFlags}
 }
 
+function updateRepos {
+    UPDATE_CMD=$(
+    case "${PACMAN}" in
+        "pacman")
+            echo "-Syy"
+            ;;
+        "emerge")
+            echo "--sync"
+            ;;
+        *)
+            echo "update"
+            ;;
+    esac
+    )
+
+    sudo ${PACMAN} ${UPDATE_CMD}
+}
+
+function addRepository {
+    if [[ $FORCE == true ]]; then
+        pacFlags="-y"
+    fi
+
+    ADD_REPO_CMD=$(
+    case "${PACMAN}" in
+        "pacman")
+            echo "repo-add"
+            ;;
+        "emerge")
+            echo "eselect repository"
+            ;;
+        *)
+            echo "add-apt-repository"
+            ;;
+    esac
+    )
+
+    sudo ${ADD_REPO_CMD} $1 ${pacFlags}
+}
