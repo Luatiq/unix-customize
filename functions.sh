@@ -68,3 +68,22 @@ function setShortcut {
     dconf write "$path/command" "'""$commandToRun""'"
     dconf write "$path/binding" "'""$binding""'"
 }
+
+function copyDotFiles {
+    folderName=$1
+    srcConfigFileName=$2
+    targetConfigFileName=$3
+
+    configFileDir=$(eval echo "~$USER")/.config/${folderName}
+    configFile=${configFileDir}/${targetConfigFileName}
+
+    mkdir -p ${configFileDir}
+
+    if [ -f ${configFile} ]; then
+        cp ${configFile} ${configFile}.bak
+    else
+        touch ${configFile}
+    fi
+
+    cat $(dirname "$0")/Dotfiles/${srcConfigFileName} > ${configFile}
+}
