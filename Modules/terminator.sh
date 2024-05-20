@@ -20,4 +20,17 @@ cp ${toggleScriptLocation} ${hBinDir}
 
 setShortcut "Toggle Terminator" "${hBinDir}/${toggleScriptName} terminator" "F12" 0
 
+configFileDir=$(eval echo "~$USER")/.config/terminator
+configFile=${configFileDir}/config
+
+mkdir -p ${configFileDir}
+
+if [ -f ${configFile} ]; then
+    cp ${configFile} ${configFile}.bak
+else
+    touch ${configFile}
+fi
+
+cat $(dirname "$0")/Dotfiles/terminator > ${configFile}
+
 set +e
