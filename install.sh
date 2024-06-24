@@ -68,13 +68,14 @@ INSTALL_CMD=$(
 installPackages PREREQUISITES[@]
 
 mapfile -t AVAILABLE_MODULES <<< "$(ls ./Modules/*.sh -1)"
+touch ./.profile
 
 moduleOptions=""
 n=1
 for moduleOption in ${AVAILABLE_MODULES[@]}
 do
-        moduleOptions="$moduleOptions $moduleOption $moduleOption off"
-        n=$[n+1]
+    moduleOptions="$moduleOptions $moduleOption $moduleOption on"
+    n=$[n+1]
 done
 
 choices=$(/usr/bin/dialog --stdout --keep-tite --no-cancel --title "Select modules to install" --ok-button "Install selected" --notags --checklist "Choose modules" 0 0 0 \
@@ -95,5 +96,20 @@ then
 else
     echo "No modules selected."
 fi
+
+profile=$(eval echo "~$USER")/.profile
+if (( $(grep -Ec "# luaten(v|d)" $profile ) > 0 )); then
+    delLines="$(grep -En "# luatenv" $profile |cut -d: -f1),$(grep -En "# luatend" $profile |cut -d: -f1)d"
+    sed -ie $delLines $profile 
+fi
+
+echo '# luatenv' >> $profile
+cat ./.profile >> $profile 
+echo '# luatend' >> $profile
+
+# @TODO - doesn't source
+source $profile
+
+rm ./.profile
 
 exit 0
