@@ -65,6 +65,23 @@ INSTALL_CMD=$(
     esac
 )
 
+REMOVE_CMD=$(
+    case "${PACMAN}" in
+        "pacman")
+            echo "-R"
+            ;;
+        "emerge")
+            echo "-c"
+            ;;
+        "apk")
+            echo "del"
+            ;;
+        *)
+            echo "remove"
+            ;;
+    esac
+)
+
 installPackages PREREQUISITES[@]
 
 mapfile -t AVAILABLE_MODULES <<< "$(ls ./Modules/*.sh -1)"
