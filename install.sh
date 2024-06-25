@@ -2,7 +2,7 @@
 # @TODO fix this help message to actually help
 HELPMSG='this is here to help'
 
-PREREQUISITES=("curl" "git" "dialog")
+PREREQUISITES=("curl" "git" "dialog" "flatpak")
 FORCE=false
 
 chmod a+x ./functions.sh

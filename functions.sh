@@ -97,3 +97,11 @@ function copyDotFiles {
 
     cat $(dirname "$0")/Dotfiles/${srcConfigFileName} > ${configFile}
 }
+
+function flatInstall {
+    flatpak install flathub $1 $([[ $FORCE == true ]] && echo '--noninteractive')
+}
+
+function flatRemove {
+    flatpak remove $1 $([[ $FORCE == true ]] && echo '--noninteractive')
+}
