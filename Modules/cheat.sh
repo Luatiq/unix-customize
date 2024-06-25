@@ -17,3 +17,5 @@ cd /tmp \
 cd $currDir
 
 yes | cheat
+
+set +e
