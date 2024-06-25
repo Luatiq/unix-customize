@@ -17,6 +17,16 @@ function installPackages {
     sudo ${PACMAN} ${INSTALL_CMD} ${scopedPackages[@]} ${pacFlags}
 }
 
+function removePackages {
+    declare -a packages=("${!1}")
+
+    if [[ $FORCE == true ]]; then
+        pacFlags="-y"
+    fi
+
+    sudo ${PACMAN} ${REMOVE_CMD} ${packages[@]} ${pacFlags}
+}
+
 function updateRepos {
     UPDATE_CMD=$(
     case "${PACMAN}" in
