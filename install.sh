@@ -4,14 +4,18 @@ HELPMSG='this is here to help'
 
 PREREQUISITES=("curl" "git" "dialog" "flatpak")
 FORCE=false
+UNDOPROFILE=true
 
 chmod a+x ./functions.sh
 source ./functions.sh
 
-while getopts 'fh' flag; do
+while getopts 'fhP' flag; do
     case "${flag}" in
         f)
             FORCE=true
+            ;;
+        P)
+            UNDOPROFILE=false
             ;;
         h)
             echo ${HELPMSG}
@@ -115,12 +119,30 @@ else
 fi
 
 profile=$(eval echo "~$USER")/.profile
+oldProfile=''
+
 if (( $(grep -Ec "# luaten(v|d)" $profile ) > 0 )); then
-    delLines="$(grep -En "# luatenv" $profile |cut -d: -f1),$(grep -En "# luatend" $profile |cut -d: -f1)d"
+    startLine=$(grep -En "# luatenv" $profile |cut -d: -f1)
+    endLine=$(grep -En "# luatend" $profile |cut -d: -f1)
+
+    if [[ $UNDOPROFILE == false ]]; then
+        contentLine=$((startLine+1))
+        contendLine=$((endLine-1))
+
+        oldProfile=$(sed -n ${contentLine},${contendLine}p $profile)
+    fi
+
+    delLines="${startLine},${endLine}d"
     sed -ie $delLines $profile 
 fi
 
+
 echo '# luatenv' >> $profile
+
+if [[ -n "$oldProfile" ]]; then
+    echo "$oldProfile" >> $profile
+fi
+
 cat ./.profile >> $profile 
 echo '# luatend' >> $profile
 
