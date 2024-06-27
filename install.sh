@@ -1,4 +1,6 @@
 #!/bin/bash
+cd "$(dirname "$0")"
+
 # @TODO fix this help message to actually help
 HELPMSG='this is here to help'
 
