@@ -105,3 +105,18 @@ function flatInstall {
 function flatRemove {
     flatpak remove $1 $([[ $FORCE == true ]] && echo '--noninteractive')
 }
+
+function installNonPacManPrerequisites {
+    mapfile -t available_prereqs <<< "$(ls ./NonPacManPrerequisites/*.sh -1)"
+
+    if [[ ! ${available_prereqs[@]} =~ "$1" ]]; then
+        echo "No such non-pacman prerequisite found"
+        return 1
+    fi
+
+    pathToExec="./NonPacManPrerequisites/$1.sh"
+    chmod a+x $pathToExec
+
+    echo "Installing prerequisite \"$1.sh\"..."
+    source $pathToExec
+}
