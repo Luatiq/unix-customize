@@ -92,6 +92,7 @@ installPackages PREREQUISITES[@]
 
 mapfile -t AVAILABLE_MODULES <<< "$(ls ./Modules/*.sh -1)"
 touch ./.profile
+mkdir ./tmp
 
 moduleOptions=""
 n=1
@@ -152,5 +153,6 @@ echo '# luatend' >> $profile
 source $profile
 
 rm ./.profile
+rm -rf ./tmp
 
 exit 0
