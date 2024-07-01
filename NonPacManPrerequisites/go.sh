@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 echo "Installing go"
 
 if ! command -v go &> /dev/null; then
@@ -13,3 +16,5 @@ if ! command -v go &> /dev/null; then
 else
     echo "go was already installed"
 fi
+
+set +e
