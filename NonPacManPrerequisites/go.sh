@@ -8,6 +8,7 @@ if ! command -v go &> /dev/null; then
     rm -rf /usr/local/go && tar -C /usr/local -xzf "./$curlFileName"
     echo 'export PATH=$PATH:/usr/local/go/bin' >> $profile
 
+    rm "./$curlFileName"
     # @TODO verify installation
     echo "go has been installed"
 else
