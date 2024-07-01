@@ -8,7 +8,8 @@ PACKAGES=("neovim")
 
 installPackages PREREQUISITES[@] PACKAGES[@]
 
-# @TODO install prereq: Go, Node, PHP, ccls
+installNonPacManPrerequisites 'go'
+# @TODO install prereq: Node, PHP, ccls
 
 mkdir -p "${homeDir}/.config/nvim"
 git clone https://github.com/Luatiq/nvimrc.git "${homeDir}/.config/nvim"

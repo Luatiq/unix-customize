@@ -109,7 +109,7 @@ function flatRemove {
 function installNonPacManPrerequisites {
     mapfile -t available_prereqs <<< "$(ls ./NonPacManPrerequisites/*.sh -1)"
 
-    if [[ ! ${available_prereqs[@]} =~ "$1" ]]; then
+    if [[ ! ${available_prereqs[@]} =~ "$1.sh" ]]; then
         echo "No such non-pacman prerequisite found"
         return 1
     fi
