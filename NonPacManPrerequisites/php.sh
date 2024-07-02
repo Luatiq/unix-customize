@@ -17,13 +17,13 @@ if ! command -v php &> /dev/null; then
             ;;
     esac
 
-    installPackages phpPrereqs[@] phpPackages[@]
+    installPackages phpPackages[@] phpPrereqs[@]
 
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
     mv 'composer-setup.php' './tmp'
 
-    php ./composer-setup.php --quiet
-    sudo mv composer.phar /usr/local/bin/composer
+    php ./tmp/composer-setup.php --quiet
+    sudo mv ./tmp/composer.phar /usr/local/bin/composer
 else
     echo "php was already installed"
 fi
