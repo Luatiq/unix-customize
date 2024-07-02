@@ -4,7 +4,6 @@ set -e
 echo "Installing php"
 
 if ! command -v php &> /dev/null; then
-    phpPrereqs=()
     case "${PACMAN}" in
         "yum")
             phpPackages=("php-cli" "php-mysqli" "php-opcache")
@@ -17,13 +16,13 @@ if ! command -v php &> /dev/null; then
             ;;
     esac
 
-    installPackages phpPackages[@] phpPrereqs[@]
+    installPackages phpPackages[@]
 
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
     mv 'composer-setup.php' './tmp'
 
     php ./tmp/composer-setup.php --quiet
-    sudo mv ./tmp/composer.phar /usr/local/bin/composer
+    sudo mv composer.phar /usr/local/bin/composer
 else
     echo "php was already installed"
 fi
