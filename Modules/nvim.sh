@@ -10,7 +10,8 @@ installPackages PREREQUISITES[@] PACKAGES[@]
 
 installNonPacManPrerequisites 'go'
 installNonPacManPrerequisites 'npm'
-# @TODO install prereq: Node, PHP, ccls
+installNonPacManPrerequisites 'php'
+# @TODO install prereq: ccls
 
 mkdir -p "${homeDir}/.config/nvim"
 git clone https://github.com/Luatiq/nvimrc.git "${homeDir}/.config/nvim"
