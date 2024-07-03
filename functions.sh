@@ -9,11 +9,11 @@ function installPackages {
 
     sudo ${PACMAN} ${INSTALL_CMD} ${scopedPrerequisites[@]} ${pacFlags}
 
-    if [[ -z $2 ]]; then
+    declare -a scopedPackages=("${!2}")
+    if [[ -z $scopedPackages ]]; then
         return 0
     fi
 
-    declare -a scopedPackages=("${!2}")
     sudo ${PACMAN} ${INSTALL_CMD} ${scopedPackages[@]} ${pacFlags}
 }
 
