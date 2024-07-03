@@ -92,7 +92,7 @@ installPackages PREREQUISITES[@]
 
 mapfile -t AVAILABLE_MODULES <<< "$(ls ./Modules/*.sh -1)"
 touch ./.profile
-mkdir ./tmp
+mkdir -p ./tmp
 
 moduleOptions=""
 n=1
