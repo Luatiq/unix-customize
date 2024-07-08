@@ -23,6 +23,8 @@ if ! command -v php &> /dev/null; then
 
     php ./tmp/composer-setup.php --quiet
     sudo mv composer.phar /usr/local/bin/composer
+
+    installNonPacManPrerequisites 'mysql'
 else
     echo "php was already installed"
 fi
